@@ -8,7 +8,7 @@ driver = webdriver.Chrome()
 datas_list = list()
 
 url_list = list()
-for file_url in file_url_list[2:-1]:
+for file_url in file_url_list[3:-1]:
     print(file_url)
     with open(file_url, 'r') as f:
         result = f.read()
