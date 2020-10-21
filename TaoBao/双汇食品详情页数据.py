@@ -4,6 +4,7 @@ import re
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 # 读取表格
 wb = openpyxl.load_workbook("双汇食品1.xlsx")
@@ -19,12 +20,14 @@ for one_column_data in wb1.iter_rows():
     product_url_list.append(result)
     # print(result)
 
+capa = DesiredCapabilities.CHROME
+capa["pageLoadStrategy"] = "none"
 
-driver = webdriver.Chrome()
-for product_url in product_url_list[12:20]:
+driver = webdriver.Chrome(desired_capabilities=capa)
+for product_url in product_url_list[1:200]:
     num = product_url_list.index(product_url)
 
-    if num == 12:
+    if num == 1:
 
         driver.get(product_url)
         time.sleep(2)
