@@ -6,7 +6,7 @@ from selenium import webdriver
 import time
 
 # 读取表格
-wb = openpyxl.load_workbook("双汇食品1.xlsx")
+wb = openpyxl.load_workbook("良品铺子.xlsx")
 # 获取所有工作表名
 names = wb.sheetnames
 # wb.get_sheet_by_name(name) 已经废弃,使用wb[name] 获取指定工作表
@@ -19,27 +19,20 @@ for one_column_data in wb1.iter_rows():
     product_url_list.append(result)
     # print(result)
 
-
-driver = webdriver.Chrome()
-for product_url in product_url_list[12:20]:
+for product_url in product_url_list[1:]:
     num = product_url_list.index(product_url)
-
-    if num == 12:
-
-        driver.get(product_url)
-        time.sleep(2)
-        driver.switch_to.frame("sufei-dialog-content")
-        time.sleep(1)
-        driver.find_element_by_xpath("""//*[@id="fm-login-id"]""").send_keys("francopapa@163.com")
-        driver.find_element_by_xpath("""//*[@id="fm-login-password"]""").send_keys("xjy.13236075136")
-        time.sleep(1)
-        driver.find_element_by_xpath("""//*[@id="login-form"]/div[4]/button""").click()
-        # driver.find_element_by_class_name("sufei-dialog-close").click()
-        driver.switch_to.default_content()
-        time.sleep(3)
-    else:
-        driver.get(product_url)
-        time.sleep(2)
+    driver = webdriver.Chrome()
+    driver.get(product_url)
+    time.sleep(2)
+    driver.switch_to.frame("sufei-dialog-content")
+    time.sleep(1)
+    driver.find_element_by_xpath("""//*[@id="fm-login-id"]""").send_keys("francopapa@163.com")
+    driver.find_element_by_xpath("""//*[@id="fm-login-password"]""").send_keys("xjy.13236075136")
+    time.sleep(1)
+    driver.find_element_by_xpath("""//*[@id="login-form"]/div[4]/button""").click()
+    # driver.find_element_by_class_name("sufei-dialog-close").click()
+    driver.switch_to.default_content()
+    time.sleep(6)
 
     # 月销量
     try:
@@ -52,7 +45,7 @@ for product_url in product_url_list[12:20]:
             wb1.cell(row=1, column=6, value="商品月销量")
             wb1.cell(row=num + 1, column=6, value=count)
     except:
-        wb1.cell(row=num + 1, column=6, value="无月销")
+        pass
 
     # 配送时间
     try:
@@ -71,7 +64,7 @@ for product_url in product_url_list[12:20]:
             wb1.cell(row=1, column=7, value="配送时间")
             wb1.cell(row=num + 1, column=7, value="没有显示配送时间")
 
-    wb.save("双汇食品1.xlsx")
+    wb.save("良品铺子1.xlsx")
     print("已完成{}条销量纪录".format(num))
 
-driver.quit()
+    driver.quit()
